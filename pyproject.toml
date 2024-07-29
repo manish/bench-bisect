@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "benchbisect"
+version = "0.1.0"
+description = ""
+authors = ["Manish Sinha <manishsinha.tech@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pyinstrument = "4.6.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[project.scripts]
+bench-bisect = "benchbisect.bench:main"
