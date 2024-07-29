@@ -27,13 +27,20 @@ def benchmark_function(func: FunctionType, bench_dir: pathlib.Path, repeat: int,
     
     return result
 
-def get_commit_list(start_commit: str, end_commit: str) -> List[str]:
+def get_commit_list(start_commit: str, end_commit: str, debug=False) -> List[str]:
     cmd = f"git rev-list {start_commit}..{end_commit}"
+    if debug:
+        print(cmd)
     result = subprocess.run(cmd, capture_output=True, text=True, shell=True)
+    if debug:
+        print(result)
     return result.stdout.strip().split('\n')
 
-def checkout_commit(commit: str):
-    subprocess.run(f"git checkout {commit}", shell=True, check=True)
+def checkout_commit(commit: str, debug=False):
+    cmd = f"git checkout {commit}"
+    if debug:
+        print(cmd)
+    subprocess.run(cmd, shell=True, check=True)
 
 def load_benchmark_function(file_path: str) -> callable:
     spec = importlib.util.spec_from_file_location("bench", file_path)
@@ -49,8 +56,8 @@ def run_benchmark(commit: str, bench_file: str, repeat: int, times: int) -> Tupl
 
 def main():
     parser = argparse.ArgumentParser(description="Benchmark performance of a function using git bisect")
-    parser.add_argument("start_commit", help="Starting git commit")
-    parser.add_argument("end_commit", default="HEAD", help="Ending git commit")
+    parser.add_argument("--start-commit", help="Starting git commit")
+    parser.add_argument("--end-commit", default="HEAD", help="Ending git commit")
     parser.add_argument("--bench-file", default="run-bench.py", help="Path to the benchmark file (default: bench.py)")
     parser.add_argument("--repeat", type=int, default=5, help="Number of times to repeat the benchmark (default: 5)")
     parser.add_argument("--times", type=int, default=100, help="Number of times to run the benchmark function (default: 100)")
