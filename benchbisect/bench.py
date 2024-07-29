@@ -48,9 +48,9 @@ def run_benchmark(commit: str, bench_file: str, repeat: int, times: int) -> Tupl
     return min(results), max(results), statistics.mean(results)
 
 def main():
-    parser = argparse.ArgumentParser(description="Benchmark Bisect")
+    parser = argparse.ArgumentParser(description="Benchmark performance of a function using git bisect")
     parser.add_argument("start_commit", help="Starting git commit")
-    parser.add_argument("end_commit", help="Ending git commit")
+    parser.add_argument("end_commit", default="HEAD", help="Ending git commit")
     parser.add_argument("--bench-file", default="run-bench.py", help="Path to the benchmark file (default: bench.py)")
     parser.add_argument("--repeat", type=int, default=5, help="Number of times to repeat the benchmark (default: 5)")
     parser.add_argument("--times", type=int, default=100, help="Number of times to run the benchmark function (default: 100)")
