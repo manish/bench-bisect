@@ -64,16 +64,15 @@ def main():
     args = parser.parse_args()
 
     commits = get_commit_list(args.start_commit, args.end_commit)
-    
-    print(f"{'Commit':<40}{'Min':<10}{'Max':<10}{'Mean':<10}")
-    print("-" * 70)
+    commits.append(args.start_commit)
 
     for commit in commits:
-        min_time, max_time, mean_time = run_benchmark(commit, args.bench_file, args.repeat, args.times)
-        print(f"{commit[:8]:<40}{min_time:<10.4f}{max_time:<10.4f}{mean_time:<10.4f}")
+        print(commit)
+        # min_time, max_time, mean_time = run_benchmark(commit, args.bench_file, args.repeat, args.times)
+        # print(f"{commit[:8]:<40}{min_time:<10.4f}{max_time:<10.4f}{mean_time:<10.4f}")
 
     # Restore to the original branch (assuming it's main or master)
-    subprocess.run("git checkout main || git checkout master", shell=True, check=True)
+    # subprocess.run("git checkout main || git checkout master", shell=True, check=True)
 
 if __name__ == "__main__":
     main()
