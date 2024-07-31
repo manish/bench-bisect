@@ -52,11 +52,12 @@ def run_benchmark(commit: str, bench_file: str, repeat: int, times: int) -> Tupl
     checkout_commit(commit)
     bench_func = load_benchmark_function(bench_file)
     results = benchmark_function(bench_func, pathlib.Path('.'), repeat, times)
-    return min(results), max(results), statistics.mean(results)
+    subprocess.run("git checkout main || git checkout master", shell=True, check=True, stdout = subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    return min(results), max(results), statistics.mean(results), results
 
 def main():
     parser = argparse.ArgumentParser(description="Benchmark performance of a function using git bisect")
-    parser.add_argument("--start-commit", help="Starting git commit")
+    parser.add_argument("--start-commit", help="Starting git commit", required=True)
     parser.add_argument("--end-commit", default="HEAD", help="Ending git commit")
     parser.add_argument("--bench-file", default="run-bench.py", help="Path to the benchmark file (default: bench.py)")
     parser.add_argument("--repeat", type=int, default=5, help="Number of times to repeat the benchmark (default: 5)")
@@ -68,11 +69,11 @@ def main():
 
     for commit in commits:
         print(commit)
-        # min_time, max_time, mean_time = run_benchmark(commit, args.bench_file, args.repeat, args.times)
-        # print(f"{commit[:8]:<40}{min_time:<10.4f}{max_time:<10.4f}{mean_time:<10.4f}")
+        min_time, max_time, mean_time, results = run_benchmark(commit, args.bench_file, args.repeat, args.times)
+        print(f"{commit[:8]:<40}{min_time:<10.4f}{max_time:<10.4f}{mean_time:<10.4f} {results}")
 
     # Restore to the original branch (assuming it's main or master)
-    # subprocess.run("git checkout main || git checkout master", shell=True, check=True)
+    subprocess.run("git checkout main || git checkout master", shell=True, check=True, stdout = subprocess.DEVNULL)
 
 if __name__ == "__main__":
     main()
