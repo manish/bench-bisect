@@ -40,7 +40,7 @@ def checkout_commit(commit: str, debug=False):
     cmd = f"git checkout {commit}"
     if debug:
         print(cmd)
-    subprocess.run(cmd, shell=True, check=True)
+    subprocess.run(cmd, shell=True, check=True, stdout = subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 def load_benchmark_function(file_path: str) -> callable:
     spec = importlib.util.spec_from_file_location("bench", file_path)
