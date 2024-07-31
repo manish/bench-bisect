@@ -42,6 +42,13 @@ def checkout_commit(commit: str, debug=False):
         print(cmd)
     subprocess.run(cmd, shell=True, check=True, stdout = subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
+def get_commit_msg(commit: str):
+    cmd = f"git rev-list --format=%B --max-count=1 {commit}"
+    results = subprocess.run(cmd, capture_output=True, text=True, shell=True).stdout.split('\n')
+    print(results)
+    if results[0] == f"commit {commit}":
+        return results[1]
+
 def load_benchmark_function(file_path: str) -> callable:
     spec = importlib.util.spec_from_file_location("bench", file_path)
     module = importlib.util.module_from_spec(spec)
@@ -70,10 +77,11 @@ def main():
     for commit in commits:
         print(commit)
         min_time, max_time, mean_time, results = run_benchmark(commit, args.bench_file, args.repeat, args.times)
-        print(f"{commit[:8]:<40}{min_time:<10.4f}{max_time:<10.4f}{mean_time:<10.4f} {results}")
+        msg = get_commit_msg(commit)
+        print(f"{commit[:8]:<40} {msg} {min_time:<10.4f}{max_time:<10.4f}{mean_time:<10.4f} {results}")
 
     # Restore to the original branch (assuming it's main or master)
-    subprocess.run("git checkout main || git checkout master", shell=True, check=True, stdout = subprocess.DEVNULL)
+    subprocess.run("git checkout main || git checkout master", shell=True, check=True, stdout = subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 if __name__ == "__main__":
     main()
