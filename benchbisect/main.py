@@ -1,10 +1,8 @@
 import argparse
-import subprocess
 import logging
-import json
 
 from .git import GitWrapper
-from .bench import Benchmark
+from .engine import ExecutionEngine
 
 git = GitWrapper()
 
@@ -24,38 +22,9 @@ def main():
     args = parser.parse_args()
 
     setup_logging(args.debug)
-    logger = logging.getLogger(__name__)
 
-    logger.info("Starting benchmark process")
-    commits = git.get_commit_list(args.start_commit, args.end_commit)
-    commits.append(args.start_commit)
-    logger.debug(f"Commits to benchmark: {commits}")
-
-    benchmark = Benchmark()
-
-    try:
-        all_results=[]
-        for idx, commit in enumerate(commits):
-            logger.debug(f"Processing commit: {commit}")
-            min_time, max_time, mean_time, results = benchmark.run_benchmark(commit, args.bench_file, args.repeat, args.times)
-            msg = git.get_commit_msg(commit)
-            logger.debug(f"{commit[:8]:<40} {msg} {min_time:<10.4f}{max_time:<10.4f}{mean_time:<10.4f} {results}")
-            all_results.append({
-                "execution_order": idx,
-                "commit": commit,
-                "message": msg,
-                "data": results,
-                "minimum": min_time,
-                "maximum": max_time,
-                "mean": mean_time,
-            })
-
-        logger.info(f"Saving benchmark results to file {args.json_output_file}")
-        with open(args.json_output_file, 'w') as f:
-            json.dump(all_results, f, indent=2)
-    finally:
-        logger.debug("Restoring to original branch")
-        subprocess.run("git checkout main || git checkout master", shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    engine = ExecutionEngine()
+    engine.run(args)
 
 if __name__ == "__main__":
     main()
