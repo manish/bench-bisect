@@ -20,7 +20,7 @@ class Benchmark:
         return getattr(module, "main")
 
     def run_benchmark(self, commit: str, bench_file: str, repeat: int, times: int) -> Tuple[float, float, float, List[float]]:
-        self.logger.info(f"Running benchmark for commit {commit}")
+        self.logger.info(f"Running benchmark for commit {commit[:8]}")
         self.git.checkout_commit(commit)
         bench_func = self.load_benchmark_function(bench_file)
         # This function is lifted from richbench
