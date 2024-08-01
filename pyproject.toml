@@ -10,6 +10,7 @@ packages = [{include = "benchbisect"}]
 python = "^3.10"
 pyinstrument = "4.6.2"
 
+matplotlib = "^3.9.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

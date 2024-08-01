@@ -4,6 +4,7 @@ import json
 
 from .git import GitWrapper
 from .bench import Benchmark
+from .plot import PlotBenchmarkResults
 
 class ExecutionEngine:
     def __init__(self):
@@ -20,6 +21,8 @@ class ExecutionEngine:
                 all_results.append(processed_commit_output)
             
             self.save_results(all_results, args.json_output_file)
+            plot = PlotBenchmarkResults(all_results)
+            plot.plot()
         finally:
             self.logger.debug("Restoring to original branch")
             subprocess.run("git checkout main || git checkout master", shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
