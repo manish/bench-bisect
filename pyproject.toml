@@ -15,7 +15,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [project.scripts]
-benchbisect = "benchbisect.bench:main"
+benchbisect = "benchbisect.main:main"
 
 [tool.poetry.plugins."console_scripts"]
-benchbisect = "benchbisect.bench:main"
+benchbisect = "benchbisect.main:main"
