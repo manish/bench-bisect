@@ -9,7 +9,7 @@ Then you specify the start commit and optionally end commit.
 
 Sit back and relax and you will get the results saved as json to your disk and additionally a chart generated for you to look through and come to the conclusion.
 
-![](https://raw.githubusercontent.com/manish/bench-bisect/main/assets/sample_benchmark_results_plot.png?token=GHSAT0AAAAAACU2MCRVCUNTRE7JTZYFELRKZVMPRYA)
+[Example Plot](assets/sample_benchmark_results_plot.png)
 
 By default it doesn't run git bisect, but runs benchmarks across all the commits
 
