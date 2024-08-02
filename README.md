@@ -1,19 +1,29 @@
-## Overview
+## Introduction
 
-Ever wanted to understand which git commit caused a performance regression for a specific code path?
+### The problem
+
+Found a performance regression for a specific code path? Not sure which commit caused it?
+
 The process can be tedious if you do not have the right tools. You have to write a benchmark function
 and run it for every commit, capture the data, compare them and come to a conclusion.
 
-What if it all happens for you? You provide a benchmark file with `main` as the entry method.
+## How benchbisect solves it for you
+
+You provide a benchmark file with `main` as the entry method.
+
 Then you specify the start commit and optionally end commit.
 
 Sit back and relax and you will get the results saved as json to your disk and additionally a chart generated for you to look through and come to the conclusion.
 
-[Example Plot](assets/sample_benchmark_results_plot.png)
+### Output
+
+![](https://i.imgur.com/UeqXufr.png)
 
 By default it doesn't run git bisect, but runs benchmarks across all the commits
 
-## Install
+## Use it
+
+### Install it
 
 ```bash
 pip install benchbisect
@@ -21,7 +31,7 @@ pip install benchbisect
 
 This installs a tool in your pip package archive
 
-## Usage
+### Simple commands
 
 ```bash
 $ benchbisect --start-commit f8d889967c966a42b7e07df58a2441d11b489f6b
@@ -35,6 +45,8 @@ $ benchbisect --start-commit f8d889967c966a42b7e07df58a2441d11b489f6b
 2024-08-01 23:18:36,824 - benchbisect.engine.ExecutionEngine - INFO - Saving benchmark results to file benchmark_results.json
 2024-08-01 23:18:38,385 - benchbisect.plot.PlotBenchmarkResults - INFO - Plot saved to benchmark_results_plot.png
 ```
+
+### Benchmark file
 
 The benchmark function resides by default in `run-bench.py` file with `main` as entry method
 
@@ -51,7 +63,7 @@ def main():
 
 If your benchmark file is named differently, then just use `--bench-file` to specify it.
 
-## Help
+## CLI reference
 
 ```bash
 benchbisect -h
