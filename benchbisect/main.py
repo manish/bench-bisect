@@ -13,9 +13,9 @@ def setup_logging(debug: bool):
 def main():
     parser = argparse.ArgumentParser(description="Benchmark performance of a function using git bisect")
     parser.add_argument("--start-commit", help="Starting git commit", required=True)
-    parser.add_argument("--end-commit", default="HEAD", help="Ending git commit")
-    parser.add_argument("--bench-file", default="run-bench.py", help="Path to the benchmark file (default: bench.py)")
-    parser.add_argument("--json-output-file", default="benchmark_results.json", help="The file to write benchmark results")
+    parser.add_argument("--end-commit", default="HEAD", help="Ending git commit (default: HEAD)")
+    parser.add_argument("--bench-file", default="run-bench.py", help="Path to the benchmark file (default: run-bench.py)")
+    parser.add_argument("--json-output-file", default="benchmark_results.json", help="The file to write benchmark results (default: benchmark_results.json)")
     parser.add_argument("--repeat", type=int, default=5, help="Number of times to repeat the benchmark (default: 5)")
     parser.add_argument("--times", type=int, default=100, help="Number of times to run the benchmark function (default: 100)")
     parser.add_argument("--debug", action="store_true", help="Enable debug logging")
