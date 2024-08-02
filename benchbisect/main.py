@@ -19,6 +19,7 @@ def main():
     parser.add_argument("--repeat", type=int, default=5, help="Number of times to repeat the benchmark (default: 5)")
     parser.add_argument("--times", type=int, default=100, help="Number of times to run the benchmark function (default: 100)")
     parser.add_argument("--debug", action="store_true", help="Enable debug logging")
+    parser.add_argument("--git-msg-on-plot", action="store_true", help="Show git commit message on plot X axis")
     args = parser.parse_args()
 
     setup_logging(args.debug)

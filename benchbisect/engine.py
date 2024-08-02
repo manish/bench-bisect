@@ -21,7 +21,7 @@ class ExecutionEngine:
                 all_results.append(processed_commit_output)
             
             self.save_results(all_results, args.json_output_file)
-            plot = PlotBenchmarkResults(all_results)
+            plot = PlotBenchmarkResults(all_results, args.git_msg_on_plot)
             plot.plot()
         finally:
             self.logger.debug("Restoring to original branch")
